@@ -206,7 +206,7 @@ float clip( float n, float lower, float upper )
     return ( n < upper ) * n + !( n < upper ) * upper;
 }
 
-ICACHE_RAM_ATTR void changeMode(){
+IRAM_ATTR void changeMode(){
   // Interrupt handler for mode switch button
   static unsigned long last_interrupt_time = 0;
   unsigned long interrupt_time = millis();
