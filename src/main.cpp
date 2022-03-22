@@ -1,13 +1,13 @@
 #include <math.h>      
-#include <Arduino.h>
+//#include <Arduino.h>
 #include <Wire.h> // Library for I2C communication
 #include <LiquidCrystal_I2C.h> // Library for LCD
 #include "MountStepper.h"
 #include <string.h>
 
 const byte interruptPin = 2;
-const byte dirPinRA = 4;
-const byte stepPinRA = 3;
+const byte dirPinRA = 2;
+const byte stepPinRA = 0;
 const byte dirPinDec = 8;
 const byte stepPinDec = 7;
 const int gearRatioRA = 24;
