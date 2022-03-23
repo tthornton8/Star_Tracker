@@ -5,11 +5,11 @@
 #include "MountStepper.h"
 #include <string.h>
 
-const byte interruptPin = 2;
-const byte dirPinRA = 2;
-const byte stepPinRA = 0;
-const byte dirPinDec = 8;
-const byte stepPinDec = 7;
+static const uint8_t interruptPin = D7;
+static const uint8_t dirPinRA = D4;
+static const uint8_t stepPinRA = D3;
+static const uint8_t dirPinDec = D5;
+static const uint8_t stepPinDec = D6;
 const int gearRatioRA = 24;
 const int gearRatioDec = 4;
 const int analogPin = A0;
