@@ -18,7 +18,7 @@ const signed long automaticSpeed = 1121927; // Steps in a Sideral Day
 const char *modeText[6] = {"Auto", "RA", "DEC", "GoTo", "Zero", "Move"};
 
 volatile signed long inputVal = 0;
-volatile byte mode = 2;
+volatile byte mode = 0;
 volatile signed long controlSpeed = 1000*1e3;
 volatile byte modeFlag = 0;
 volatile float degrees = 0;
@@ -32,7 +32,7 @@ volatile byte charSelected = 0;
 volatile int targetPosArrRA[5] = {0, 0, 0, 0};
 volatile int targetPosArrDec[5] = {0, 0, 0, 0};
 volatile int menuPosArr[5] = {3, 11, 3, 9, 3};
-volatile byte inMenu = 1;
+volatile byte inMenu = 0;
 volatile byte stepperSelected = 0;
 
 volatile float targetPosRA;
@@ -52,8 +52,8 @@ MountStepper stepperDec = MountStepper(stepPinDec, dirPinDec, gearRatioDec, 0, 6
 
 void printMenu() {
   inputVal = floor(analogRead(analogPin)/(1024/5));
-  Serial.println(inputVal);
-  Serial.println(analogRead(analogPin));
+  // Serial.println(inputVal);
+  // Serial.println(analogRead(analogPin));
   
   lcd.clear();
 
