@@ -1,9 +1,12 @@
 #include <math.h>      
-//#include <Arduino.h>
 #include <Wire.h> // Library for I2C communication
 #include <LiquidCrystal_I2C.h> // Library for LCD
 #include "MountStepper.h"
 #include <string.h>
+#include <ESP8266WiFi.h>
+#include <Hash.h>
+#include <ESPAsyncTCP.h>
+#include <ESPAsyncWebServer.h>
 
 static const uint8_t interruptPin = D5;
 static const uint8_t dirPinRA = D4;
