@@ -53,6 +53,12 @@ LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27, 16, 2); //
 MountStepper stepperEq = MountStepper(stepPinRA, dirPinRA, gearRatioRA, automaticSpeed, 1e3, 360);
 MountStepper stepperDec = MountStepper(stepPinDec, dirPinDec, gearRatioDec, 0, 6e3, 180);
 
+// Create AsyncWebServer object on port 80
+AsyncWebServer server(80);
+
+const char* ssid     = "Star_Tracker";
+const char* password = "pleiades0324";
+
 void printMenu() {
   inputVal = floor(analogRead(analogPin)/(1024/5));
   // Serial.println(inputVal);
@@ -238,6 +244,17 @@ void setup()
   stepperDec.setDir(LOW);
 
   Serial.begin(9600);
+
+  Serial.print("Setting AP (Access Point)…");
+  // Remove the password parameter, if you want the AP (Access Point) to be open
+  WiFi.softAP(ssid, password);
+
+  IPAddress IP = WiFi.softAPIP();
+  Serial.print("AP IP address: ");
+  Serial.println(IP);
+
+  // Print ESP8266 Local IP Address
+  Serial.println(WiFi.localIP());
 }
 
 void loop(){   
