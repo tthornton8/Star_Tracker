@@ -7,6 +7,10 @@
 #include <Hash.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
+#include <FS.h>
+#include <LITTLEFS.h> 
+
+
 
 static const uint8_t interruptPin = D5;
 static const uint8_t dirPinRA = D4;
@@ -255,6 +259,36 @@ void setup()
 
   // Print ESP8266 Local IP Address
   Serial.println(WiFi.localIP());
+
+ if(!LittleFS.begin()){
+    Serial.println("An Error has occurred while mounting LittleFS");
+    return;
+  }
+  
+  // File file = LittleFS.open("/index.html", "r");
+  // if(!file){
+  //   Serial.println("Failed to open file for reading");
+  //   return;
+  // }
+  
+  // Serial.println("File Content:");
+  // while(file.available()){
+  //   Serial.write(file.read());
+  // }
+  // file.close();
+
+  // Route for root / web page
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(LittleFS, "/index.html", String(), false);
+  });
+  
+  // Route to load style.css file
+  server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(LittleFS, "/style.css", "text/css");
+  });
+
+  // Start server
+  server.begin();
 }
 
 void loop(){   
