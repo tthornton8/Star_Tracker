@@ -11,7 +11,6 @@
 #include <LITTLEFS.h> 
 
 
-
 static const uint8_t interruptPin = D5;
 static const uint8_t dirPinRA = D4;
 static const uint8_t stepPinRA = D3;
@@ -229,6 +228,10 @@ IRAM_ATTR void changeMode(){
     interruptFlag = 1;
   }
   last_interrupt_time = interrupt_time;
+}
+
+void notFound(AsyncWebServerRequest *request) {
+  request->send(404, "text/plain", "Not found");
 }
 
 void setup()
