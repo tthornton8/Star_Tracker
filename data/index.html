@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>ESP32 Web Server</title>
+  <title>Star Tracker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="data:,">
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-  <h1>ESP32 Web Server</h1>
-  <p>GPIO state: <strong> %STATE%</strong></p>
-  <p><a href="/on"><button class="button">ON</button></a></p>
-  <p><a href="/off"><button class="button button2">OFF</button></a></p>
+  <h1>Star Tracker</h1>
+  <p>RA: <strong> %RA%</strong></p>
+  <p>DEC: <strong> %DEC%</strong></p>
+  <form action = "/get">
+    <Strong> RA: </Strong> <input type = "text" name = "RA">
+    <input class = "button" type="submit" value="Go">
+  </form><br>
+  <form action = "/get">
+    <Strong>DEC: </String> <input type = "text" name = "DEC">
+    <input class = "button" type="submit" value="Go">
+  </form><br>
 </body>
 </html>
