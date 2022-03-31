@@ -62,6 +62,9 @@ AsyncWebServer server(80);
 const char* ssid     = "Star_Tracker";
 const char* password = "pleiades0324";
 
+const char* PARAM_INPUT_1 = "RA";
+const char* PARAM_INPUT_2 = "DEC";
+
 void printMenu() {
   inputVal = floor(analogRead(analogPin)/(1024/5));
   // Serial.println(inputVal);
@@ -234,6 +237,16 @@ void notFound(AsyncWebServerRequest *request) {
   request->send(404, "text/plain", "Not found");
 }
 
+String processor(const String& var) {
+  if (var == "RA") {
+    return String(stepperEq.degrees, 2);
+  } else if (var == "DEC") {
+    return String(stepperDec.degrees, 2);
+  } else {
+    return String();
+  }
+}
+
 void setup()
 {
   // Declare pins
@@ -263,26 +276,14 @@ void setup()
   // Print ESP8266 Local IP Address
   Serial.println(WiFi.localIP());
 
- if(!LittleFS.begin()){
+  if(!LittleFS.begin()){
     Serial.println("An Error has occurred while mounting LittleFS");
     return;
   }
-  
-  // File file = LittleFS.open("/index.html", "r");
-  // if(!file){
-  //   Serial.println("Failed to open file for reading");
-  //   return;
-  // }
-  
-  // Serial.println("File Content:");
-  // while(file.available()){
-  //   Serial.write(file.read());
-  // }
-  // file.close();
 
   // Route for root / web page
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(LittleFS, "/index.html", String(), false);
+    request->send(LittleFS, "/index.html", String(), false, processor);
   });
   
   // Route to load style.css file
@@ -290,7 +291,29 @@ void setup()
     request->send(LittleFS, "/style.css", "text/css");
   });
 
+  server.on("/get", HTTP_GET, [] (AsyncWebServerRequest *request) {
+    String inputValue;
+    String inputMotor;
+    // GET RA value on <ESP_IP>/get?input1=<inputMessage>
+    if (request->hasParam(PARAM_INPUT_1)) {
+      inputValue = request->getParam(PARAM_INPUT_1)->value();
+      inputMotor = PARAM_INPUT_1;
+    }
+    // GET DEC value on <ESP_IP>/get?input2=<inputMessage>
+    else if (request->hasParam(PARAM_INPUT_2)) {
+      inputValue = request->getParam(PARAM_INPUT_2)->value();
+      inputMotor = PARAM_INPUT_2;
+    }
+    else {
+      inputValue = "No message sent";
+      inputMotor = "none";
+    }
+    
+    request->send(LittleFS, "/index.html", String(), false, processor);
+    });
+
   // Start server
+  server.onNotFound(notFound);
   server.begin();
 }
 
