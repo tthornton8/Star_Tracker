@@ -70,7 +70,7 @@ void MountStepper::run() {
       degrees = degrees - 1.8/(16*_gearRatio);
     }
 
-    degrees = degrees > 360 ? 0 : degrees;
+    degrees = degrees >= 360 ? 0 : degrees;
     degrees = degrees < 0 ? 360 : degrees;
 
     _lastStep = _currTimeStep;
@@ -106,6 +106,7 @@ void MountStepper::GoTo(float goPos) {
   _goToPos = goPos;
   speed = 1e2*log(1e6/abs(degrees-_goToPos));
   _motion = 1;
+  Serial.println(goPos);
 }
 
 void MountStepper::setPos(float pos) {

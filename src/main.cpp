@@ -54,7 +54,7 @@ String DecDeg;
 // Connect to LCD via I2C, default address 0x27 (A0-A2 not jumpered)
 LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27, 16, 2); //
 MountStepper stepperEq = MountStepper(stepPinRA, dirPinRA, gearRatioRA, automaticSpeed, 1e3, 360);
-MountStepper stepperDec = MountStepper(stepPinDec, dirPinDec, gearRatioDec, 0, 6e3, 180);
+MountStepper stepperDec = MountStepper(stepPinDec, dirPinDec, gearRatioDec, 0, 6e3, 360);
 
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);
@@ -304,19 +304,35 @@ void setup()
   server.on("/get", HTTP_GET, [] (AsyncWebServerRequest *request) {
     String inputValue;
     String inputMotor;
+
     // GET RA value on <ESP_IP>/get?input1=<inputMessage>
     if (request->hasParam(PARAM_INPUT_1)) {
+      mode = 5;
       inputValue = request->getParam(PARAM_INPUT_1)->value();
       inputMotor = PARAM_INPUT_1;
+
+      targetPosRA = inputValue.toFloat();
+      Serial.println("RA");
+      Serial.println(targetPosRA);
+      stepperEq.GoTo(targetPosRA);
+
     }
     // GET DEC value on <ESP_IP>/get?input2=<inputMessage>
     else if (request->hasParam(PARAM_INPUT_2)) {
+      mode = 5;
       inputValue = request->getParam(PARAM_INPUT_2)->value();
       inputMotor = PARAM_INPUT_2;
+
+      targetPosDec = inputValue.toFloat();
+      Serial.println("DEC");
+      Serial.println(targetPosDec);
+      stepperDec.GoTo(targetPosDec);
     }
     else {
       inputValue = "No message sent";
       inputMotor = "none";
+
+      Serial.println(inputValue);
     }
     
     request->send(LittleFS, "/index.html", String(), false, processor);
@@ -325,6 +341,9 @@ void setup()
   // Start server
   server.onNotFound(notFound);
   server.begin();
+
+  stepperEq.setPos(0);
+  stepperDec.setPos(0);
 }
 
 void loop(){   
