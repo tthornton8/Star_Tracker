@@ -291,6 +291,16 @@ void setup()
     request->send(LittleFS, "/style.css", "text/css");
   });
 
+  // Forward Sensor Data
+  server.on("/motor_pos", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(200, "application/json", "{\"RA\": " + String(stepperEq.degrees, 2) + ", \"DEC\": " + String(stepperDec.degrees, 2) + "}"); 
+  });
+
+  server.on("/js/jquery.js", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(LittleFS, "/js/jquery.js", "text/javascript");
+});
+
+  // Handle mtor Move
   server.on("/get", HTTP_GET, [] (AsyncWebServerRequest *request) {
     String inputValue;
     String inputMotor;
