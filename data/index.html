@@ -12,15 +12,31 @@
   <p>RA: <strong> <span id = "RA_span"></span></strong></p>
   <p>DEC: <strong><span id = "DEC_span"></span></strong></p>
   <form action = "/get">
-    <Strong> RA: </Strong> <input type = "text" name = "RA">
+    <Strong> RA: </Strong> <input type = "text" name = "RA" id = "RA_input">
     <input class = "button" type="submit" value="Go">
   </form><br>
   <form action = "/get">
-    <Strong>DEC: </String> <input type = "text" name = "DEC">
+    <Strong>DEC: </String> <input type = "text" name = "DEC" id = "DEC_input">
     <input class = "button" type="submit" value="Go">
-  </form><br>
+  </form>
+  
+  <br>
+  <br>
+
+  <button type="button" class = "button" onclick="setZero()" >Set Motor Position</button>
 
   <script>
+    function setZero() {
+      posRA  = document.getElementById("RA_input" ).value.replaceAll("", "0")
+      posDEC = document.getElementById("DEC_input").value.replaceAll("", "0")
+
+      getRequest = "/setZero?posRA=" + posRA + "&posDec=" +posDEC
+      console.log(getRequest)
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", getRequest, true);
+      xhr.send();
+    }
 
     $(function() {
     // request data every 5 seconds
@@ -47,7 +63,6 @@
     }
 
     });
-
   </script>
 </body>
 </html>

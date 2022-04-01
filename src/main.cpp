@@ -300,6 +300,23 @@ void setup()
     request->send(LittleFS, "/js/jquery.js", "text/javascript");
 });
 
+  server.on("/setZero", HTTP_GET, [] (AsyncWebServerRequest *request) {
+    String inputValue;
+    float pos;
+
+    if (request->hasParam("posRA")) {
+      inputValue = request->getParam("posRA")->value();
+      pos = inputValue.toFloat();
+      stepperEq.setPos(pos);
+    }
+
+    if (request->hasParam("posDEC")) {
+      inputValue = request->getParam("posDEC")->value();
+      pos = inputValue.toFloat();
+      stepperEq.setPos(pos);
+    }
+  });
+
   // Handle mtor Move
   server.on("/get", HTTP_GET, [] (AsyncWebServerRequest *request) {
     String inputValue;
