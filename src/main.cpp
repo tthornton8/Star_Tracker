@@ -285,6 +285,12 @@ void setup()
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(LittleFS, "/index.html", String(), false, processor);
   });
+
+  server.on("/stop", HTTP_GET, [](AsyncWebServerRequest *request){
+    stepperEq.stop();
+    stepperDec.stop();
+    request->send(LittleFS, "/index.html", String(), false, processor);
+  });
   
   // Route to load style.css file
   server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request){
