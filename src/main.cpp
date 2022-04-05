@@ -62,9 +62,6 @@ AsyncWebServer server(80);
 const char* ssid     = "Star_Tracker";
 const char* password = "pleiades0324";
 
-const char* PARAM_INPUT_1 = "RA";
-const char* PARAM_INPUT_2 = "DEC";
-
 void printMenu() {
   inputVal = floor(analogRead(analogPin)/(1024/5));
   // Serial.println(inputVal);
@@ -309,6 +306,7 @@ void setup()
     request->send(LittleFS, "/js/jquery.js", "text/javascript");
 });
 
+
   server.on("/setZero", HTTP_GET, [] (AsyncWebServerRequest *request) {
     String inputValue;
     float pos;
@@ -331,16 +329,24 @@ void setup()
     }
   });
 
+  server.on("/toggleRA", HTTP_GET, [] (AsyncWebServerRequest *request) {
+    stepperEq.setDir(!stepperEq._dir);
+    request->send(LittleFS, "/index.html", String(), false, processor);
+  });
+
+  server.on("/toggleDEC", HTTP_GET, [] (AsyncWebServerRequest *request) {
+    stepperDec.setDir(!stepperDec._dir);
+    request->send(LittleFS, "/index.html", String(), false, processor);
+  });
+
   // Handle mtor Move
   server.on("/get", HTTP_GET, [] (AsyncWebServerRequest *request) {
     String inputValue;
-    String inputMotor;
 
     // GET RA value on <ESP_IP>/get?input1=<inputMessage>
-    if (request->hasParam(PARAM_INPUT_1)) {
+    if (request->hasParam("RA")) {
       mode = 5;
-      inputValue = request->getParam(PARAM_INPUT_1)->value();
-      inputMotor = PARAM_INPUT_1;
+      inputValue = request->getParam("RA")->value();
 
       targetPosRA = inputValue.toFloat();
       Serial.println("RA");
@@ -350,21 +356,18 @@ void setup()
 
     }
     // GET DEC value on <ESP_IP>/get?input2=<inputMessage>
-    else if (request->hasParam(PARAM_INPUT_2)) {
+    else if (request->hasParam("DEC")) {
       mode = 5;
-      inputValue = request->getParam(PARAM_INPUT_2)->value();
-      inputMotor = PARAM_INPUT_2;
+      inputValue = request->getParam("DEC")->value();
 
       targetPosDec = inputValue.toFloat();
       Serial.println("DEC");
       Serial.println(targetPosDec);
       stepperDec.GoTo(targetPosDec);
       inMenu = 0;
-    }
+    } 
     else {
       inputValue = "No message sent";
-      inputMotor = "none";
-
       Serial.println(inputValue);
     }
     

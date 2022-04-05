@@ -15,13 +15,13 @@ class MountStepper {
         void stop();
         volatile float degrees;
         signed long speed;
+        byte _dir;
     private:
         float _maxPos;
         byte _ramp;
         int _rampSpeed;
         signed long _targetSpeed;
         signed int _lastRampAdjust;
-        byte _dir;
         int _stepPin;
         int _dirPin;
         float _gearRatio;
