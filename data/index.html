@@ -34,10 +34,18 @@
 
   <script>
     function setZero() {
-      posRA  = document.getElementById("RA_input" ).value.replaceAll("", "0")
-      posDEC = document.getElementById("DEC_input").value.replaceAll("", "0")
+      posRA  = document.getElementById("RA_input" ).value
+      posDEC = document.getElementById("DEC_input").value
 
-      getRequest = "/setZero?posRA=" + posRA + "&posDec=" +posDEC
+      if (posRA.length === 0) {
+        posRA = 0
+      }
+
+      if (posDEC.length === 0) {
+        posDEC = 0
+      }
+
+      getRequest = "/setZero?posRA=" + posRA + "&posDEC=" +posDEC
       console.log(getRequest)
 
       var xhr = new XMLHttpRequest();

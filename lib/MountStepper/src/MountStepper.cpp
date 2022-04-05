@@ -25,6 +25,7 @@ MountStepper::MountStepper(int stepPin, int dirPin, float gearRatio, signed long
 
 void MountStepper::run() {
   if (degrees > _maxPos) {
+    Serial.println("Stop called greater than max position");
     stop();
   }
   
@@ -83,6 +84,7 @@ void MountStepper::run() {
     
     if (abs(_goToPos-degrees) < 3.6/(16*_gearRatio)) {
       _goToMove = 0;
+      Serial.println("Stop called as reached position");
       stop();
     }
     if (degrees < _goToPos) {
@@ -119,6 +121,7 @@ void MountStepper::setSpeed(signed long controlSpeed) {
 }
 
 void MountStepper::setSpeedRamp(signed long controlSpeed) {
+  Serial.println("Speed set to controlSpeed");
   _targetSpeed = controlSpeed;
   _motion = 1;
   _ramp = 1;

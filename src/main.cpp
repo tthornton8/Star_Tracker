@@ -38,7 +38,7 @@ volatile byte charSelected = 0;
 volatile int targetPosArrRA[5] = {0, 0, 0, 0};
 volatile int targetPosArrDec[5] = {0, 0, 0, 0};
 volatile int menuPosArr[5] = {3, 11, 3, 9, 3};
-volatile byte inMenu = 0;
+volatile byte inMenu = 1;
 volatile byte stepperSelected = 0;
 
 volatile float targetPosRA;
@@ -137,6 +137,7 @@ void updateScreen() {
     lcd.clear();
 
     if (inMenu) {
+      Serial.println("in menu so stop");
       stepperEq.stop();
       stepperDec.stop();
       mode = 7;
@@ -287,8 +288,10 @@ void setup()
   });
 
   server.on("/stop", HTTP_GET, [](AsyncWebServerRequest *request){
+    Serial.println("stop");
     stepperEq.stop();
     stepperDec.stop();
+    inMenu = 1;
     request->send(LittleFS, "/index.html", String(), false, processor);
   });
   
@@ -310,16 +313,21 @@ void setup()
     String inputValue;
     float pos;
 
+    Serial.println(request->methodToString());
     if (request->hasParam("posRA")) {
       inputValue = request->getParam("posRA")->value();
       pos = inputValue.toFloat();
+      Serial.println("RA_set");
       stepperEq.setPos(pos);
+      Serial.println(pos);
     }
 
     if (request->hasParam("posDEC")) {
       inputValue = request->getParam("posDEC")->value();
       pos = inputValue.toFloat();
-      stepperEq.setPos(pos);
+      stepperDec.setPos(pos);
+      Serial.println("DEC_set");
+      Serial.println(pos);
     }
   });
 
@@ -338,6 +346,7 @@ void setup()
       Serial.println("RA");
       Serial.println(targetPosRA);
       stepperEq.GoTo(targetPosRA);
+      inMenu = 0;
 
     }
     // GET DEC value on <ESP_IP>/get?input2=<inputMessage>
@@ -350,6 +359,7 @@ void setup()
       Serial.println("DEC");
       Serial.println(targetPosDec);
       stepperDec.GoTo(targetPosDec);
+      inMenu = 0;
     }
     else {
       inputValue = "No message sent";
