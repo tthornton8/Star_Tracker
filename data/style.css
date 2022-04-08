@@ -23,6 +23,49 @@ html {
     margin: 2px;
     cursor: pointer;
   }
-  .button2 {
-    background-color: #f44336;
-  }
+
+
+.buttonGrid {
+  display: grid;
+  gap: 1px;
+  grid-template-columns: repeat(3, 1fr);
+}
+  
+.buttonGrid > div {
+    padding: 10px;
+}
+
+.buttonGrid button {
+    background-color: #008CBA; 
+    border: none; 
+    color: white; 
+    padding: 10px 10px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    float: left; /* Float the buttons side by side */
+}
+
+.btn-group button {
+  background-color: #008CBA; /* Green background */
+  border: none; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  float: left; /* Float the buttons side by side */
+  width:33.3%
+}
+
+.btn-group button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: #005572;
+}
