@@ -334,6 +334,38 @@ void setup()
     }
   });
 
+  server.on("/adjustPos", HTTP_GET, [] (AsyncWebServerRequest *request) {
+    String inputValue;
+    float pos;
+    float currentPos;
+
+    Serial.println(request->methodToString());
+    if (request->hasParam("goRA")) {
+      inputValue = request->getParam("goRA")->value();
+      currentPos = stepperEq.degrees;
+      pos = currentPos + inputValue.toFloat();
+      
+      Serial.println("RA_adj");
+      mode = 5;
+      inMenu = 0;
+      stepperEq.GoTo(pos);
+      Serial.println(pos);
+    }
+
+    if (request->hasParam("goDEC")) {
+      inputValue = request->getParam("goDEC")->value();
+      pos = inputValue.toFloat();
+      currentPos = stepperDec.degrees;
+      pos = currentPos + inputValue.toFloat();
+
+      mode = 5;
+      inMenu = 0;
+      stepperDec.GoTo(pos);
+      Serial.println("DEC_adj");
+      Serial.println(pos);
+    }
+  });
+
   server.on("/toggleRA", HTTP_GET, [] (AsyncWebServerRequest *request) {
     stepperEq.setDir(!stepperEq._dir);
     request->send(LittleFS, "/index.html", String(), false, processor);
