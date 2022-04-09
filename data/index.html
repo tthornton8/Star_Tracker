@@ -48,7 +48,7 @@
     <button onclick="moveMotor('up');">&#8593;</button>
     <div></div>
     <button onclick="moveMotor('left');">&#8592;</button>
-    <div></div>
+    <div><span id = "mag">0.1</span>&deg;</div>
     <button onclick="moveMotor('right');">&#8594;</button>
     <div></div>
     <button onclick="moveMotor('down');">&#8595;</button>
@@ -58,13 +58,18 @@
   <br>
 
   <div class="btn-group">
-    <button onclick = "mag = 0.1;">0.1</button>
-    <button onclick = "mag = 1;">1</button>
-    <button onclick = "mag = 5;">5</button>
+    <button onclick = "setMag(0.1);">0.1</button>
+    <button onclick = "setMag(1);"  >1</button>
+    <button onclick = "setMag(5);"  >5</button>
   </div>
 
   <script>
     var mag = 0.1
+
+    function setMag(val) {
+      mag = val;
+      document.getElementById("mag").innerHTML = mag;
+    }
 
     function moveMotor(Direction) {
       if (Direction === 'up') {
