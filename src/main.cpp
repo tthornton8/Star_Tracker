@@ -12,10 +12,10 @@
 
 
 static const uint8_t interruptPin = D5;
-static const uint8_t dirPinRA = D4;
-static const uint8_t stepPinRA = D3;
-static const uint8_t dirPinDec = D8;
-static const uint8_t stepPinDec = D7;
+static const uint8_t dirPinRA   = D8;//D4;
+static const uint8_t stepPinRA  = D7;//D3;
+static const uint8_t dirPinDec  = D4;//D8;
+static const uint8_t stepPinDec = D3;//D7;
 const int gearRatioRA = 24;
 const int gearRatioDec = 4;
 const int analogPin = A0;
