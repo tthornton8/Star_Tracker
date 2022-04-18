@@ -66,9 +66,9 @@ void MountStepper::run() {
     digitalWrite(_stepPin, LOW);
 
     if (_dir == HIGH) {
-      degrees = degrees + 1.8/(16*_gearRatio);
-    } else {
       degrees = degrees - 1.8/(16*_gearRatio);
+    } else {
+      degrees = degrees + 1.8/(16*_gearRatio);
     }
 
     degrees = degrees >= 360 ? 0 : degrees;
@@ -88,9 +88,9 @@ void MountStepper::run() {
       stop();
     }
     if (degrees < _goToPos) {
-      _dir = HIGH;
-    } else {
       _dir = LOW;
+    } else {
+      _dir = HIGH;
     }
   }
 }
