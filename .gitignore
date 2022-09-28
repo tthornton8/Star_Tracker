@@ -40,3 +40,4 @@ lib/AccelStepper/src/AccelStepper.h
 lib/AccelStepper/src/MultiStepper.cpp
 lib/AccelStepper/src/MultiStepper.h
 .gitignore
+platformio.ini
