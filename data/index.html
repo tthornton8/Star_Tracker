@@ -32,7 +32,16 @@
   <br>
 
   <button type="button" class = "button" onclick="setZero()" >Set Motor Position</button>
-  <button type="button" class = "button" onclick="setStar('polaris')" >Set To Polaris</button>
+  <br>
+  <br>
+  <button type="button" class = "button" onclick="setStar('polaris')" >Set To</button>
+  <select name="star" id="star">
+      <option value="polaris">Polaris</option>
+      <option value="sirius">Sirius</option>
+      <option value="vega">Vega</option>
+      <option value="betelgeuse">Betelgeuse</option>
+      <option value="deneb">Deneb</option>
+  </select>
   <br>
   <br>
 
@@ -114,8 +123,24 @@
     function setStar(star) {
       switch(star) {
         case 'polaris':
-          posRA = 37.95416667
-          posDEC = 89.26417
+          posRA = 37.95
+          posDEC = 89.26
+          break;
+        case 'sirius':
+          posRA = 101.29
+          posDEC = -16.72
+          break;
+        case 'vega':
+          posRA = 279.23
+          posDEC = 38.78
+          break;
+        case 'betelgeuse':
+          posRA = 88.79
+          posDEC = 7.41
+          break;
+        case 'deneb':
+          posRA = 310.36
+          posDEC = 45.28
           break;
         default:
           posRA = 0
