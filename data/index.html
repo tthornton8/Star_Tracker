@@ -97,7 +97,7 @@
       xhr.send();
     };
 
-    function sendRA_DEC(posRA, posDEC) {
+    function sendSetRA_DEC(posRA, posDEC) {
       getRequest = "/setZero?posRA=" + posRA + "&posDEC=" +posDEC
 
       var xhr = new XMLHttpRequest();
@@ -117,7 +117,7 @@
         posDEC = 0
       }
 
-      sendRA_DEC(posRA, posDEC)
+      sendSetRA_DEC(posRA, posDEC)
     };
 
     function setStar(star) {
@@ -147,7 +147,7 @@
           posDEC = 0
       }
 
-      sendRA_DEC(posRA, posDEC)
+      sendSetRA_DEC(posRA, posDEC)
     }
 
     $(function() {
