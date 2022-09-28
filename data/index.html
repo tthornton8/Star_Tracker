@@ -32,7 +32,7 @@
   <br>
 
   <button type="button" class = "button" onclick="setZero()" >Set Motor Position</button>
-
+  <button type="button" class = "button" onclick="setStar('polaris')" >Set To Polaris</button>
   <br>
   <br>
 
@@ -88,6 +88,14 @@
       xhr.send();
     };
 
+    function sendRA_DEC(posRA, posDEC) {
+      getRequest = "/setZero?posRA=" + posRA + "&posDEC=" +posDEC
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", getRequest, true);
+      xhr.send();
+    };
+
     function setZero() {
       posRA  = document.getElementById("RA_input" ).value
       posDEC = document.getElementById("DEC_input").value
@@ -100,11 +108,21 @@
         posDEC = 0
       }
 
-      getRequest = "/setZero?posRA=" + posRA + "&posDEC=" +posDEC
+      sendRA_DEC(posRA, posDEC)
+    };
 
-      var xhr = new XMLHttpRequest();
-      xhr.open("GET", getRequest, true);
-      xhr.send();
+    function setStar(star) {
+      switch(star) {
+        case 'polaris':
+          posRA = 37.95416667
+          posDEC = 89.26417
+          break;
+        default:
+          posRA = 0
+          posDEC = 0
+      }
+
+      sendRA_DEC(posRA, posDEC)
     }
 
     $(function() {
