@@ -53,8 +53,8 @@ String DecDeg;
 // Wiring: SDA pin is connected to A4 and SCL pin to A5.
 // Connect to LCD via I2C, default address 0x27 (A0-A2 not jumpered)
 LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27, 16, 2); //
-MountStepper stepperEq = MountStepper(stepPinRA, dirPinRA, gearRatioRA, automaticSpeed, 1e3, 360);
-MountStepper stepperDec = MountStepper(stepPinDec, dirPinDec, gearRatioDec, 0, 6e3, 360);
+MountStepper stepperEq = MountStepper(stepPinRA, dirPinRA, gearRatioRA, automaticSpeed, 1e3, 360, 0);
+MountStepper stepperDec = MountStepper(stepPinDec, dirPinDec, gearRatioDec, 0, 6e3, 180, -180);
 
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);

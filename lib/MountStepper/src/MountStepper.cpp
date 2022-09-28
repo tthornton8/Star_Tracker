@@ -1,7 +1,7 @@
 #include "Arduino.h"
 #include "MountStepper.h"
 
-MountStepper::MountStepper(int stepPin, int dirPin, float gearRatio, signed long zeroSpeed, signed long maxSpeed, float maxPos)
+MountStepper::MountStepper(int stepPin, int dirPin, float gearRatio, signed long zeroSpeed, signed long maxSpeed, float maxPos, float minPos)
 {
     pinMode(stepPin, OUTPUT);
     pinMode(dirPin, OUTPUT);
@@ -21,6 +21,7 @@ MountStepper::MountStepper(int stepPin, int dirPin, float gearRatio, signed long
     _lastRamp = 0;
     _rampSpeed = 100;
     _maxPos = maxPos;
+    _minPos = minPos;
 }
 
 void MountStepper::run() {
@@ -71,8 +72,8 @@ void MountStepper::run() {
       degrees = degrees + 1.8/(16*_gearRatio);
     }
 
-    degrees = degrees >= 360 ? 0 : degrees;
-    degrees = degrees < 0 ? 360 : degrees;
+    degrees = degrees >= _maxPos ? _minPos : degrees;
+    degrees = degrees < _minPos ? _maxPos : degrees;
 
     _lastStep = _currTimeStep;
     _halfStep = 1;

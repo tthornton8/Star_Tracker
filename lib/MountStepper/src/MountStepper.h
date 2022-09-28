@@ -5,7 +5,7 @@
 
 class MountStepper {
     public:
-        MountStepper(int stepPin, int dirPin, float gearRatio, signed long zeroSpeed, signed long maxSpeed, float maxPos);
+        MountStepper(int stepPin, int dirPin, float gearRatio, signed long zeroSpeed, signed long maxSpeed, float maxPos, float minPos);
         void run();
         void setPos(float pos);
         void setSpeed(signed long controlSpeed);
@@ -18,6 +18,7 @@ class MountStepper {
         byte _dir;
     private:
         float _maxPos;
+        float _minPos;
         byte _ramp;
         int _rampSpeed;
         signed long _targetSpeed;
@@ -35,6 +36,7 @@ class MountStepper {
         volatile signed long _zeroSpeed;
         volatile byte _motion;
         signed long _maxSpeed;
+
 };
 
 #endif
